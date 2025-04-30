@@ -9,8 +9,7 @@
 
 **Report**
 
-I tested different markdown syntaxes using latest TinaCMS starter kit for Next.js and TinaMarkdown.
-Here is the repo - https://github.com/babakamyljanovssw/test-markdown-compatibility
+Ttested different markdown syntaxes using latest TinaCMS starter kit for Next.js with TinaMarkdown.
 
 1. ✅ Strikethrough - it is working as expected with one `~` and double `~~` tilda
 
