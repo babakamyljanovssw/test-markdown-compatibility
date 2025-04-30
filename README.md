@@ -1,107 +1,46 @@
-# Tina Starter 🦙
+# Repo to test different Markdown syntaxes for SSW.Rules migration
 
-![tina-cloud-starter-demo](https://user-images.githubusercontent.com/103008/130587027-995ccc45-a852-4f90-b658-13e8e0517339.gif)
+**PBI - https://github.com/SSWConsulting/SSW.Rules/issues/1713**
 
-This Next.js starter is powered by [TinaCMS](https://app.tina.io) for you and your team to visually live edit the structured content of your website. ✨
+## Steps
 
-The content is managed through Markdown and JSON files stored in your GitHub repository, and queried through Tina GraphQL API.
+1. Run `pnpm run dev`
+2. Go to post - http://localhost:3000/posts/test-markdown-compatibility
 
-### Features
+**Report**
 
-- [Tina Headless CMS](https://app.tina.io) for authentication, content modeling, visual editing and team management.
-- [Vercel](https://vercel.com) deployment to visually edit your site from the `/admin` route.
-- Local development workflow from the filesystem with a local GraqhQL server.
+I tested different markdown syntaxes using latest TinaCMS starter kit for Next.js and TinaMarkdown.
+Here is the repo - https://github.com/babakamyljanovssw/test-markdown-compatibility
 
-## Requirements
+1. ✅ Strikethrough - it is working as expected with one `~` and double `~~` tilda
 
-- Git, [Node.js Active LTS](https://nodejs.org/en/about/releases/), pnpm installed for local development.
-- A [TinaCMS](https://app.tina.io) account for live editing.
+![Image](https://github.com/user-attachments/assets/03d274c8-e31d-4125-b9a8-8dcbd7ea4268)
+**Figure: Strikethroughs are rendered correctly**
 
-## Local Development
+2. Image embeds:
 
-Install the project's dependencies:
+- ✅ Image embed with the relative URL works correctly
+- ❌ Image embed with internet URL is treated as the link and doesn't render the image
 
-> [!NOTE]  
-> [Do you know the best package manager for Node.js?](https://www.ssw.com.au/rules/best-package-manager-for-node/) Using the right package manager can greatly enhance your development workflow. We recommend using pnpm for its speed and efficient handling of dependencies. Learn more about why pnpm might be the best choice for your projects by checking out this rule from SSW.
+![Image](https://github.com/user-attachments/assets/34ba3a8e-9d40-4dcc-a9c4-e3a62d2a30f3)
+**Figure: Image embed works with relative URLs but not with internet URLs**
 
+3. ❌ List inside Blockquotes - using list after blockquote makes the whole page to be rendered as code block.
 
-```
-pnpm install
-```
+![Image](https://github.com/user-attachments/assets/5cbce4bb-ddf6-4461-ba12-c2564bfa8cdf)
+**Figure: Using list with blockquote fails**
 
-Run the project locally:
+4. ❌ Shortcode Tag - using it makes the whole page to be rendered as code block also.
 
-```
-pnpm dev
-```
+![Image](https://github.com/user-attachments/assets/bb7ded1d-911e-4967-a253-a2e021bd536e)
+**Figure: Using Shortcode tag fails**
 
-### Local URLs
+Based on this we can start work on these issues individually and create custom components for TinaMarkdown:
 
-- http://localhost:3000 : browse the website
-- http://localhost:3000/admin : connect to Tina Cloud and go in edit mode
-- http://localhost:3000/exit-admin : log out of Tina Cloud
-- http://localhost:4001/altair/ : GraphQL playground to test queries and browse the API documentation
+- https://github.com/SSWConsulting/SSW.Rules/issues/1545
+- https://github.com/SSWConsulting/SSW.Rules/issues/1546
+- https://github.com/SSWConsulting/SSW.Rules/issues/1548
 
-## Deployment
+And we can close strikethrough issue as TinaMarkdown successfully rendering it:
 
-### GitHub Pages
-
-This starter can be deployed to GitHub Pages. A GitHub Actions workflow is included that handles the build and deployment process. 
-
-To deploy to GitHub Pages:
-
-1. In your repository settings, ensure GitHub Pages is enabled and set to deploy from the `gh-pages` branch
-2. Push changes to your main branch - the workflow will automatically build and deploy the site
-
-> [!NOTE]
-> When deploying to GitHub Pages, you'll need to update your secrets in Settings | Secrets and variables | Actions to include:
-> - `NEXT_PUBLIC_TINA_CLIENT_ID`
-> - `TINA_TOKEN`
->
-> You get these from your TinaCloud project - [read the docs](https://tina.io/docs/tina-cloud/deployment-options/github-pages)
-
-> [!IMPORTANT]
-> GitHub Pages does not support server side code, so this will run as a static site. If you don't want to deploy to GitHub pages, just delete `.github/workflows/build-and-deploy.yml`
-
-### Building the Starter Locally (Using the hosted content API)
-
-Replace the `.env.example`, with `.env`
-
-```
-NEXT_PUBLIC_TINA_CLIENT_ID=<get this from the project you create at app.tina.io>
-TINA_TOKEN=<get this from the project you create at app.tina.io>
-NEXT_PUBLIC_TINA_BRANCH=<Specify the branch with Tina configured>
-```
-
-Build the project:
-
-```bash
-pnpm build
-```
-
-## Getting Help
-
-To get help with any TinaCMS challenges you may have:
-
-- Visit the [documentation](https://tina.io/docs/) to learn about Tina.
-- [Join our Discord](https://discord.gg/zumN63Ybpf) to share feedback.
-- Visit the [community forum](https://community.tinacms.org/) to ask questions.
-- Get support through the chat widget on the TinaCMS Dashboard
-- [Email us](mailto:support@tina.io) to schedule a call with our team and share more about your context and what you're trying to achieve.
-- [Search or open an issue](https://github.com/tinacms/tinacms/issues) if something is not working.
-- Reach out on Twitter at [@tina_cms](https://twitter.com/tina_cms).
-
-## Development tips
-
-### Visual Studio Code GraphQL extension
-
-[Install the GraphQL extension](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql) to benefit from type auto-completion.
-
-### Typescript
-
-A good way to ensure your components match the shape of your data is to leverage the auto-generated TypeScript types.
-These are rebuilt when your `tina` config changes.
-
-## LICENSE
-
-Licensed under the [Apache 2.0 license](./LICENSE).
+- https://github.com/SSWConsulting/SSW.Rules/issues/1547
